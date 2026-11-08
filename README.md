@@ -8,7 +8,7 @@ Every change I ship keeps the output byte-identical: the same tokens and the sam
 - kernel traces;
 - the project's kernel contract, with launch records taken from the release toolchain.
 
-## TensorFold: 14 merged pull requests
+## TensorFold: 19 merged pull requests
 
 Highlights:
 
@@ -21,6 +21,8 @@ Highlights:
   - HIP decode is 7.5% to 18.9% faster at 32K and 64K context on Qwen3.6-35B-A3B and Qwen3.8-27B (1.2.2).
 - **[#1855](https://github.com/ashhart/TensorFold/pull/1855): narrowest stream columns.**
   - Qwen3.6-35B-A3B chat is about 18% faster with drafts on, and Qwen3.8-27B about 5% (1.2.2).
+- **[#2455](https://github.com/ashhart/TensorFold/pull/2455): sampled streams draft with the graphed head chain.**
+  - Sampled serving of Qwen3.6-35B-A3B with MTP drafts is 4.1% to 11.6% faster on gfx1151, with the same tokens.
 - **[#1830](https://github.com/ashhart/TensorFold/pull/1830): shared rounds timed at the served streams.**
   - Multi-stream drafting no longer drops into a slower mode (fixes #1695, 1.2.2).
 
@@ -35,15 +37,21 @@ Highlights:
 | [#1855](https://github.com/ashhart/TensorFold/pull/1855) | narrowest stream columns at one- and two-row launches | 1.2.2 |
 | [#1932](https://github.com/ashhart/TensorFold/pull/1932) | decode score: four keys a warp on long spans | 1.2.2 |
 | [#1961](https://github.com/ashhart/TensorFold/pull/1961) | decode softmax stats and partial sums load sixteen ahead | 1.2.2 |
-| [#2007](https://github.com/ashhart/TensorFold/pull/2007) | decode router reads the bf16 router rows the model holds | next |
-| [#2099](https://github.com/ashhart/TensorFold/pull/2099) | prompt residual add and post-mixer norm in one launch | next |
-| [#2117](https://github.com/ashhart/TensorFold/pull/2117) | prompt conv writes q, k and v to their own rows | next |
-| [#1694](https://github.com/ashhart/TensorFold/pull/1694) | wide stream rounds reuse cached weights | next |
-| [#2233](https://github.com/ashhart/TensorFold/pull/2233) | decode records re-derived with the release hipcc (HIP 7.16) | next |
+| [#2007](https://github.com/ashhart/TensorFold/pull/2007) | decode router reads the bf16 router rows the model holds | 1.2.3 |
+| [#2099](https://github.com/ashhart/TensorFold/pull/2099) | prompt residual add and post-mixer norm in one launch | 1.2.3 |
+| [#2117](https://github.com/ashhart/TensorFold/pull/2117) | prompt conv writes q, k and v to their own rows | 1.2.3 |
+| [#1694](https://github.com/ashhart/TensorFold/pull/1694) | wide stream rounds reuse cached weights | 1.2.3 |
+| [#2233](https://github.com/ashhart/TensorFold/pull/2233) | decode records re-derived with the release hipcc (HIP 7.16) | 1.2.3 |
+| [#2247](https://github.com/ashhart/TensorFold/pull/2247) | decode tail issues a row's loads before its branches | 1.2.4 |
+| [#2374](https://github.com/ashhart/TensorFold/pull/2374) | resumed == fresh checks start their fresh runs from nothing | 1.2.4 |
+| [#2314](https://github.com/ashhart/TensorFold/pull/2314) | DFlash2 part 1: tap a drafter's layers into each stream's ring | next |
+| [#2455](https://github.com/ashhart/TensorFold/pull/2455) | sampled streams draft with the graphed head chain | next |
+| [#2477](https://github.com/ashhart/TensorFold/pull/2477) | DFlash2 part 2: drafter config and affine-4 weights | next |
 
 In review:
 - [#2087](https://github.com/ashhart/TensorFold/pull/2087): a skewed-row matrix tile with three blocks a WGP on gfx1151.
-- [#2247](https://github.com/ashhart/TensorFold/pull/2247): the decode tail at half its kernel time.
 
-Next up: DFlash2 speculative decoding on HIP for Qwen3.8-27B, as six chained PRs. Measured locally, it decodes 2.5x
-faster in code and 2x in chat at one stream, with the same tokens.
+In progress: DFlash2 speculative decoding on HIP for Qwen3.8-27B, as six chained PRs. Parts 1 and 2 are merged
+([#2314](https://github.com/ashhart/TensorFold/pull/2314), [#2477](https://github.com/ashhart/TensorFold/pull/2477));
+part 3, the drafter kernels, is next. Measured locally, the whole chain decodes 2.5x faster in code and 2x in chat at
+one stream, with the same tokens.
