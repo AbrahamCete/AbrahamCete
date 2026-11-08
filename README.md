@@ -44,14 +44,18 @@ Highlights:
 | [#2233](https://github.com/ashhart/TensorFold/pull/2233) | decode records re-derived with the release hipcc (HIP 7.16) | 1.2.3 |
 | [#2247](https://github.com/ashhart/TensorFold/pull/2247) | decode tail issues a row's loads before its branches | 1.2.4 |
 | [#2374](https://github.com/ashhart/TensorFold/pull/2374) | resumed == fresh checks start their fresh runs from nothing | 1.2.4 |
-| [#2314](https://github.com/ashhart/TensorFold/pull/2314) | DFlash2 part 1: tap a drafter's layers into each stream's ring | next |
-| [#2455](https://github.com/ashhart/TensorFold/pull/2455) | sampled streams draft with the graphed head chain | next |
-| [#2477](https://github.com/ashhart/TensorFold/pull/2477) | DFlash2 part 2: drafter config and affine-4 weights | next |
+| [#2314](https://github.com/ashhart/TensorFold/pull/2314) | DFlash2 part 1: tap a drafter's layers into each stream's ring | 1.2.5 |
+| [#2455](https://github.com/ashhart/TensorFold/pull/2455) | sampled streams draft with the graphed head chain | 1.2.5 |
+| [#2477](https://github.com/ashhart/TensorFold/pull/2477) | DFlash2 part 2: drafter config and affine-4 weights | 1.2.5 |
 
 In review:
 - [#2087](https://github.com/ashhart/TensorFold/pull/2087): a skewed-row matrix tile with three blocks a WGP on gfx1151.
+- [#2545](https://github.com/ashhart/TensorFold/pull/2545): DFlash2 part 3, the drafter kernels, each with a planted contract control.
+- [#2582](https://github.com/ashhart/TensorFold/pull/2582): @davidtai's prompt DeltaNet kernels from
+  [#1667](https://github.com/ashhart/TensorFold/pull/1667), carried onto main with gfx1151 receipts. Prompts take 5-6% less time
+  on Qwen3.8-27B and 6-10% less on Qwen3.6-35B-A3B, with the same bytes.
 
 In progress: DFlash2 speculative decoding on HIP for Qwen3.8-27B, as six chained PRs. Parts 1 and 2 are merged
 ([#2314](https://github.com/ashhart/TensorFold/pull/2314), [#2477](https://github.com/ashhart/TensorFold/pull/2477));
-part 3, the drafter kernels, is next. Measured locally, the whole chain decodes 2.5x faster in code and 2x in chat at
-one stream, with the same tokens.
+they ship in 1.2.5, and part 3 is in review. Measured locally, the whole chain decodes 2.5x faster in code and 2x
+in chat at one stream, with the same tokens.
