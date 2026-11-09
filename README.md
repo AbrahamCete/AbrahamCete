@@ -8,7 +8,7 @@ Every change I ship keeps the output byte-identical: the same tokens and the sam
 - kernel traces;
 - the project's kernel contract, with launch records taken from the release toolchain.
 
-## TensorFold: 19 merged pull requests
+## TensorFold: 21 merged pull requests
 
 Highlights:
 
@@ -47,6 +47,8 @@ Highlights:
 | [#2314](https://github.com/ashhart/TensorFold/pull/2314) | DFlash2 part 1: tap a drafter's layers into each stream's ring | 1.2.5 |
 | [#2455](https://github.com/ashhart/TensorFold/pull/2455) | sampled streams draft with the graphed head chain | 1.2.5 |
 | [#2477](https://github.com/ashhart/TensorFold/pull/2477) | DFlash2 part 2: drafter config and affine-4 weights | 1.2.5 |
+| [#2652](https://github.com/ashhart/TensorFold/pull/2652) | shared rows timed with a token a row, lone windows on one token | unreleased |
+| [#2661](https://github.com/ashhart/TensorFold/pull/2661) | shared rows' token stride coprime to the vocabulary's span | unreleased |
 
 In review:
 - [#2087](https://github.com/ashhart/TensorFold/pull/2087): a skewed-row matrix tile with three blocks a WGP on gfx1151.
