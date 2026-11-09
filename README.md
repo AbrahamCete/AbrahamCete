@@ -8,7 +8,7 @@ Every change I ship keeps the output byte-identical: the same tokens and the sam
 - kernel traces;
 - the project's kernel contract, with launch records taken from the release toolchain.
 
-## TensorFold: 21 merged pull requests
+## TensorFold: 22 merged pull requests
 
 Highlights:
 
@@ -49,13 +49,14 @@ Highlights:
 | [#2477](https://github.com/ashhart/TensorFold/pull/2477) | DFlash2 part 2: drafter config and affine-4 weights | 1.2.5 |
 | [#2652](https://github.com/ashhart/TensorFold/pull/2652) | shared rows timed with a token a row, lone windows on one token | unreleased |
 | [#2661](https://github.com/ashhart/TensorFold/pull/2661) | shared rows' token stride coprime to the vocabulary's span | unreleased |
+| [#2087](https://github.com/ashhart/TensorFold/pull/2087) | skewed-row matrix tile, three blocks a WGP on gfx1151 | unreleased |
 
 In review:
-- [#2087](https://github.com/ashhart/TensorFold/pull/2087): a skewed-row matrix tile with three blocks a WGP on gfx1151.
 - [#2545](https://github.com/ashhart/TensorFold/pull/2545): DFlash2 part 3, the drafter kernels, each with a planted contract control.
 - [#2582](https://github.com/ashhart/TensorFold/pull/2582): @davidtai's prompt DeltaNet kernels from
   [#1667](https://github.com/ashhart/TensorFold/pull/1667), carried onto main with gfx1151 receipts. Prompts take 5-6% less time
   on Qwen3.8-27B and 6-10% less on Qwen3.6-35B-A3B, with the same bytes.
+- [#2674](https://github.com/ashhart/TensorFold/pull/2674): CUDA's Qwen DFlash2 drafter config refuses a tap layer named twice, as HIP's does.
 
 In progress: DFlash2 speculative decoding on HIP for Qwen3.8-27B, as six chained PRs. Parts 1 and 2 are merged
 ([#2314](https://github.com/ashhart/TensorFold/pull/2314), [#2477](https://github.com/ashhart/TensorFold/pull/2477));
