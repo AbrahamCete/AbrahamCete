@@ -49,12 +49,12 @@ Highlights:
 | [#2314](https://github.com/ashhart/TensorFold/pull/2314) | DFlash2 part 1: tap a drafter's layers into each stream's ring | 1.2.5 |
 | [#2455](https://github.com/ashhart/TensorFold/pull/2455) | sampled streams draft with the graphed head chain | 1.2.5 |
 | [#2477](https://github.com/ashhart/TensorFold/pull/2477) | DFlash2 part 2: drafter config and affine-4 weights | 1.2.5 |
-| [#2652](https://github.com/ashhart/TensorFold/pull/2652) | shared rows timed with a token a row, lone windows on one token | unreleased |
-| [#2661](https://github.com/ashhart/TensorFold/pull/2661) | shared rows' token stride coprime to the vocabulary's span | unreleased |
-| [#2087](https://github.com/ashhart/TensorFold/pull/2087) | skewed-row matrix tile, three blocks a WGP on gfx1151 | unreleased |
-| [#2582](https://github.com/ashhart/TensorFold/pull/2582) | @davidtai's prompt DeltaNet kernels, carried with gfx1151 receipts | unreleased |
-| [#2674](https://github.com/ashhart/TensorFold/pull/2674) | CUDA's DFlash2 drafter config refuses a tap layer named twice | unreleased |
-| [#2545](https://github.com/ashhart/TensorFold/pull/2545) | DFlash2 part 3: drafter kernels, each with a planted control | unreleased |
+| [#2652](https://github.com/ashhart/TensorFold/pull/2652) | shared rows timed with a token a row, lone windows on one token | 1.2.6 |
+| [#2661](https://github.com/ashhart/TensorFold/pull/2661) | shared rows' token stride coprime to the vocabulary's span | 1.2.6 |
+| [#2087](https://github.com/ashhart/TensorFold/pull/2087) | skewed-row matrix tile, three blocks a WGP on gfx1151 | 1.2.6 |
+| [#2582](https://github.com/ashhart/TensorFold/pull/2582) | @davidtai's prompt DeltaNet kernels, carried with gfx1151 receipts | 1.2.6 |
+| [#2674](https://github.com/ashhart/TensorFold/pull/2674) | CUDA's DFlash2 drafter config refuses a tap layer named twice | 1.2.6 |
+| [#2545](https://github.com/ashhart/TensorFold/pull/2545) | DFlash2 part 3: drafter kernels, each with a planted control | 1.2.6 |
 
 In review:
 - [#2726](https://github.com/ashhart/TensorFold/pull/2726): DFlash2 part 4, the drafter's engine for the qwen3_5 target.
@@ -62,5 +62,5 @@ In review:
 
 In progress: DFlash2 speculative decoding on HIP for Qwen3.8-27B, as six chained PRs. Parts 1 to 3 are merged
 ([#2314](https://github.com/ashhart/TensorFold/pull/2314), [#2477](https://github.com/ashhart/TensorFold/pull/2477),
-[#2545](https://github.com/ashhart/TensorFold/pull/2545)); parts 1 and 2 ship in 1.2.5, and part 4 is in review. Measured locally, the whole chain decodes 2.5x faster in code and 2x
+[#2545](https://github.com/ashhart/TensorFold/pull/2545)); parts 1 and 2 ship in 1.2.5 and part 3 in 1.2.6, and part 4 is in review. Measured locally, the whole chain decodes 2.5x faster in code and 2x
 in chat at one stream, with the same tokens.
