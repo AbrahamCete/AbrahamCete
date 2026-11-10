@@ -8,7 +8,7 @@ Every change I ship keeps the output byte-identical: the same tokens and the sam
 - kernel traces;
 - the project's kernel contract, with launch records taken from the release toolchain.
 
-## TensorFold: 22 merged pull requests
+## TensorFold: 25 merged pull requests
 
 Highlights:
 
@@ -23,6 +23,8 @@ Highlights:
   - Qwen3.6-35B-A3B chat is about 18% faster with drafts on, and Qwen3.8-27B about 5% (1.2.2).
 - **[#2455](https://github.com/ashhart/TensorFold/pull/2455): sampled streams draft with the graphed head chain.**
   - Sampled serving of Qwen3.6-35B-A3B with MTP drafts is 4.1% to 11.6% faster on gfx1151, with the same tokens.
+- **[#2582](https://github.com/ashhart/TensorFold/pull/2582): @davidtai's prompt DeltaNet kernels from [#1667](https://github.com/ashhart/TensorFold/pull/1667), carried onto main with gfx1151 receipts.**
+  - Prompts take 5-6% less time on Qwen3.8-27B and 6-10% less on Qwen3.6-35B-A3B, with the same bytes.
 - **[#1830](https://github.com/ashhart/TensorFold/pull/1830): shared rounds timed at the served streams.**
   - Multi-stream drafting no longer drops into a slower mode (fixes #1695, 1.2.2).
 
@@ -50,15 +52,15 @@ Highlights:
 | [#2652](https://github.com/ashhart/TensorFold/pull/2652) | shared rows timed with a token a row, lone windows on one token | unreleased |
 | [#2661](https://github.com/ashhart/TensorFold/pull/2661) | shared rows' token stride coprime to the vocabulary's span | unreleased |
 | [#2087](https://github.com/ashhart/TensorFold/pull/2087) | skewed-row matrix tile, three blocks a WGP on gfx1151 | unreleased |
+| [#2582](https://github.com/ashhart/TensorFold/pull/2582) | @davidtai's prompt DeltaNet kernels, carried with gfx1151 receipts | unreleased |
+| [#2674](https://github.com/ashhart/TensorFold/pull/2674) | CUDA's DFlash2 drafter config refuses a tap layer named twice | unreleased |
+| [#2545](https://github.com/ashhart/TensorFold/pull/2545) | DFlash2 part 3: drafter kernels, each with a planted control | unreleased |
 
 In review:
-- [#2545](https://github.com/ashhart/TensorFold/pull/2545): DFlash2 part 3, the drafter kernels, each with a planted contract control.
-- [#2582](https://github.com/ashhart/TensorFold/pull/2582): @davidtai's prompt DeltaNet kernels from
-  [#1667](https://github.com/ashhart/TensorFold/pull/1667), carried onto main with gfx1151 receipts. Prompts take 5-6% less time
-  on Qwen3.8-27B and 6-10% less on Qwen3.6-35B-A3B, with the same bytes.
-- [#2674](https://github.com/ashhart/TensorFold/pull/2674): CUDA's Qwen DFlash2 drafter config refuses a tap layer named twice, as HIP's does.
+- [#2726](https://github.com/ashhart/TensorFold/pull/2726): DFlash2 part 4, the drafter's engine for the qwen3_5 target.
+- [#2706](https://github.com/ashhart/TensorFold/pull/2706): a GPU test of Qwen3.8-Flash-Next's fused prompt prep, through the layer itself.
 
-In progress: DFlash2 speculative decoding on HIP for Qwen3.8-27B, as six chained PRs. Parts 1 and 2 are merged
-([#2314](https://github.com/ashhart/TensorFold/pull/2314), [#2477](https://github.com/ashhart/TensorFold/pull/2477));
-they ship in 1.2.5, and part 3 is in review. Measured locally, the whole chain decodes 2.5x faster in code and 2x
+In progress: DFlash2 speculative decoding on HIP for Qwen3.8-27B, as six chained PRs. Parts 1 to 3 are merged
+([#2314](https://github.com/ashhart/TensorFold/pull/2314), [#2477](https://github.com/ashhart/TensorFold/pull/2477),
+[#2545](https://github.com/ashhart/TensorFold/pull/2545)); parts 1 and 2 ship in 1.2.5, and part 4 is in review. Measured locally, the whole chain decodes 2.5x faster in code and 2x
 in chat at one stream, with the same tokens.
