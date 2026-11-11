@@ -8,7 +8,7 @@ Every change I ship keeps the output byte-identical: the same tokens and the sam
 - kernel traces;
 - the project's kernel contract, with launch records taken from the release toolchain.
 
-## TensorFold: 25 merged pull requests
+## TensorFold: 26 merged pull requests
 
 Highlights:
 
@@ -55,10 +55,11 @@ Highlights:
 | [#2582](https://github.com/ashhart/TensorFold/pull/2582) | @davidtai's prompt DeltaNet kernels, carried with gfx1151 receipts | 1.2.6 |
 | [#2674](https://github.com/ashhart/TensorFold/pull/2674) | CUDA's DFlash2 drafter config refuses a tap layer named twice | 1.2.6 |
 | [#2545](https://github.com/ashhart/TensorFold/pull/2545) | DFlash2 part 3: drafter kernels, each with a planted control | 1.2.6 |
+| [#2706](https://github.com/ashhart/TensorFold/pull/2706) | GPU test of Qwen3.8-Flash-Next's fused prompt prep through the layer, bit for bit | 1.2.7 |
 
 In review:
 - [#2726](https://github.com/ashhart/TensorFold/pull/2726): DFlash2 part 4, the drafter's engine for the qwen3_5 target.
-- [#2706](https://github.com/ashhart/TensorFold/pull/2706): a GPU test of Qwen3.8-Flash-Next's fused prompt prep, through the layer itself.
+- [#2878](https://github.com/ashhart/TensorFold/pull/2878): the routed prompt tile takes K-parallel passes for experts of few rows; short cold prompts of Qwen3.6-35B-A3B start up to 22% sooner.
 
 In progress: DFlash2 speculative decoding on HIP for Qwen3.8-27B, as six chained PRs. Parts 1 to 3 are merged
 ([#2314](https://github.com/ashhart/TensorFold/pull/2314), [#2477](https://github.com/ashhart/TensorFold/pull/2477),
