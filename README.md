@@ -8,7 +8,7 @@ Every change I ship keeps the output byte-identical: the same tokens and the sam
 - kernel traces;
 - the project's kernel contract, with launch records taken from the release toolchain.
 
-## TensorFold: 26 merged pull requests
+## TensorFold: 29 merged pull requests
 
 Highlights:
 
@@ -19,6 +19,10 @@ Highlights:
   - Cold prefill of Qwen3.8-27B is 32% faster at 2K and 24.5% faster at 64K (TensorFold 1.2.0).
 - **[#1932](https://github.com/ashhart/TensorFold/pull/1932): the planned decode score.**
   - HIP decode is 7.5% to 18.9% faster at 32K and 64K context on Qwen3.6-35B-A3B and Qwen3.8-27B (1.2.2).
+- **[#3273](https://github.com/ashhart/TensorFold/pull/3273): a plain prompt of 1 or 2 rows takes the 2-row K-parallel tile on gfx1151.**
+  - A resumed prompt with 1 or 2 rows left reaches its first token 48% and 64% sooner on Qwen3.8-27B, and 18% and 27% sooner on Qwen3.6-35B-A3B.
+- **[#2878](https://github.com/ashhart/TensorFold/pull/2878): the routed prompt tile takes K-parallel passes for experts of few rows.**
+  - Cold prompts of 64 to 256 tokens on Qwen3.6-35B-A3B are 11% to 22% faster at one stream, with the same tokens (1.2.8).
 - **[#1855](https://github.com/ashhart/TensorFold/pull/1855): narrowest stream columns.**
   - Qwen3.6-35B-A3B chat is about 18% faster with drafts on, and Qwen3.8-27B about 5% (1.2.2).
 - **[#2455](https://github.com/ashhart/TensorFold/pull/2455): sampled streams draft with the graphed head chain.**
@@ -56,12 +60,15 @@ Highlights:
 | [#2674](https://github.com/ashhart/TensorFold/pull/2674) | CUDA's DFlash2 drafter config refuses a tap layer named twice | 1.2.6 |
 | [#2545](https://github.com/ashhart/TensorFold/pull/2545) | DFlash2 part 3: drafter kernels, each with a planted control | 1.2.6 |
 | [#2706](https://github.com/ashhart/TensorFold/pull/2706) | GPU test of Qwen3.8-Flash-Next's fused prompt prep through the layer, bit for bit | 1.2.7 |
+| [#2726](https://github.com/ashhart/TensorFold/pull/2726) | DFlash2 part 4: the drafter's engine for the qwen3_5 target | 1.2.8 |
+| [#2878](https://github.com/ashhart/TensorFold/pull/2878) | routed prompt tile takes K-parallel passes for experts of few rows | 1.2.8 |
+| [#3273](https://github.com/ashhart/TensorFold/pull/3273) | a plain prompt of 1 or 2 rows takes the 2-row K-parallel tile on gfx1151 | unreleased |
 
 In review:
-- [#2726](https://github.com/ashhart/TensorFold/pull/2726): DFlash2 part 4, the drafter's engine for the qwen3_5 target.
-- [#2878](https://github.com/ashhart/TensorFold/pull/2878): the routed prompt tile takes K-parallel passes for experts of few rows; short cold prompts of Qwen3.6-35B-A3B start up to 22% sooner.
+- [#3508](https://github.com/ashhart/TensorFold/pull/3508): a faster score step for the planned decode walk at head size 256, with the same bits; decode is 14% to 32% faster at 131K and 258K tokens of context on Qwen3.6-35B-A3B and Qwen3.8-27B.
+- [#3521](https://github.com/ashhart/TensorFold/pull/3521): a routed prompt plan keeps the shared expert whole, and gfx1151 takes the GEMM tile from 33 rows; prompt passes of 33 to 63 rows on Qwen3.6-35B-A3B take 8% to 20% less time, with the same bytes.
 
-In progress: DFlash2 speculative decoding on HIP for Qwen3.8-27B, as six chained PRs. Parts 1 to 3 are merged
+In progress: DFlash2 speculative decoding on HIP for Qwen3.8-27B, as six chained PRs. Parts 1 to 4 are merged
 ([#2314](https://github.com/ashhart/TensorFold/pull/2314), [#2477](https://github.com/ashhart/TensorFold/pull/2477),
-[#2545](https://github.com/ashhart/TensorFold/pull/2545)); parts 1 and 2 ship in 1.2.5 and part 3 in 1.2.6, and part 4 is in review. Measured locally, the whole chain decodes 2.5x faster in code and 2x
+[#2545](https://github.com/ashhart/TensorFold/pull/2545), [#2726](https://github.com/ashhart/TensorFold/pull/2726)); parts 1 and 2 ship in 1.2.5, part 3 in 1.2.6 and part 4 in 1.2.8. Measured locally, the whole chain decodes 2.5x faster in code and 2x
 in chat at one stream, with the same tokens.
