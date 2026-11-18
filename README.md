@@ -72,6 +72,7 @@ In review:
 
 Proposed, issue first:
 - [#3765](https://github.com/ashhart/TensorFold/issues/3765): fetch-inactive on prompt attention's `v_permlane16`, which drops a copy the tile never needs; cold prompts are 1.5% to 2.7% faster at 131K to 261K tokens on both checkpoints, with the same bits.
+- [#3811](https://github.com/ashhart/TensorFold/issues/3811): the rows of a decode round read a stream's keys and values once instead of once a row; at kernel level a round of 2 to 4 rows walks its attention in 16% to 30% less time at 131K to 262K tokens on both checkpoints' shapes, with the same bits.
 
 In progress: DFlash2 speculative decoding on HIP for Qwen3.8-27B, as six chained PRs. Parts 1 to 4 are merged
 ([#2314](https://github.com/ashhart/TensorFold/pull/2314), [#2477](https://github.com/ashhart/TensorFold/pull/2477),
