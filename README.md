@@ -67,8 +67,13 @@ Highlights:
 In review:
 - [#3508](https://github.com/ashhart/TensorFold/pull/3508): a faster score step for the planned decode walk at head size 256, with the same bits; decode is 14% to 32% faster at 131K and 258K tokens of context on Qwen3.6-35B-A3B and Qwen3.8-27B.
 - [#3521](https://github.com/ashhart/TensorFold/pull/3521): a routed prompt plan keeps the shared expert whole, and gfx1151 takes the GEMM tile from 33 rows; prompt passes of 33 to 63 rows on Qwen3.6-35B-A3B take 8% to 20% less time, with the same bytes.
+- [#3728](https://github.com/ashhart/TensorFold/pull/3728): a lone stream's copy windows are priced from its own timed rounds (fixes [#3390](https://github.com/ashhart/TensorFold/issues/3390)); with drafts on, decode is 15% to 39% faster at 131K and 258K tokens of context on Qwen3.6-35B-A3B and Qwen3.8-27B, with the same tokens.
+- [#3665](https://github.com/ashhart/TensorFold/pull/3665): DFlash2 part 5, `serve` runs Qwen3.8-27B with its DFlash2 drafter on HIP; at one stream and temperature 0, decode is 2.25x faster in code and 1.87x in chat.
+
+Proposed, issue first:
+- [#3765](https://github.com/ashhart/TensorFold/issues/3765): fetch-inactive on prompt attention's `v_permlane16`, which drops a copy the tile never needs; cold prompts are 1.5% to 2.7% faster at 131K to 261K tokens on both checkpoints, with the same bits.
 
 In progress: DFlash2 speculative decoding on HIP for Qwen3.8-27B, as six chained PRs. Parts 1 to 4 are merged
 ([#2314](https://github.com/ashhart/TensorFold/pull/2314), [#2477](https://github.com/ashhart/TensorFold/pull/2477),
-[#2545](https://github.com/ashhart/TensorFold/pull/2545), [#2726](https://github.com/ashhart/TensorFold/pull/2726)); parts 1 and 2 ship in 1.2.5, part 3 in 1.2.6 and part 4 in 1.2.8. Measured locally, the whole chain decodes 2.5x faster in code and 2x
+[#2545](https://github.com/ashhart/TensorFold/pull/2545), [#2726](https://github.com/ashhart/TensorFold/pull/2726)); parts 1 and 2 ship in 1.2.5, part 3 in 1.2.6 and part 4 in 1.2.8. Part 5, the serving wiring, is in review ([#3665](https://github.com/ashhart/TensorFold/pull/3665)). Measured locally, the whole chain decodes 2.5x faster in code and 2x
 in chat at one stream, with the same tokens.
