@@ -8,7 +8,7 @@ Every change I ship keeps the output byte-identical: the same tokens and the sam
 - kernel traces;
 - the project's kernel contract, with launch records taken from the release toolchain.
 
-## TensorFold: 30 merged pull requests
+## TensorFold: 31 merged pull requests
 
 Highlights:
 
@@ -21,6 +21,8 @@ Highlights:
   - HIP decode is 7.5% to 18.9% faster at 32K and 64K context on Qwen3.6-35B-A3B and Qwen3.8-27B (1.2.2).
 - **[#3508](https://github.com/ashhart/TensorFold/pull/3508): the planned decode walk scores head size 256 without element tests.**
   - Decode is 14% to 32% faster at 131K and 258K tokens of context on Qwen3.6-35B-A3B and Qwen3.8-27B, with the same bits (1.2.10).
+- **[#3728](https://github.com/ashhart/TensorFold/pull/3728): a lone stream's copy windows are priced from its own timed rounds.**
+  - With drafts on, decode is 15% to 39% faster at 131K and 258K tokens of context on Qwen3.6-35B-A3B and Qwen3.8-27B, with the same tokens (fixes [#3390](https://github.com/ashhart/TensorFold/issues/3390); next release).
 - **[#3273](https://github.com/ashhart/TensorFold/pull/3273): a plain prompt of 1 or 2 rows takes the 2-row K-parallel tile on gfx1151.**
   - A resumed prompt with 1 or 2 rows left reaches its first token 48% and 64% sooner on Qwen3.8-27B, and 18% and 27% sooner on Qwen3.6-35B-A3B (1.2.10).
 - **[#2878](https://github.com/ashhart/TensorFold/pull/2878): the routed prompt tile takes K-parallel passes for experts of few rows.**
@@ -66,15 +68,16 @@ Highlights:
 | [#2878](https://github.com/ashhart/TensorFold/pull/2878) | routed prompt tile takes K-parallel passes for experts of few rows | 1.2.8 |
 | [#3273](https://github.com/ashhart/TensorFold/pull/3273) | a plain prompt of 1 or 2 rows takes the 2-row K-parallel tile on gfx1151 | 1.2.10 |
 | [#3508](https://github.com/ashhart/TensorFold/pull/3508) | the planned decode walk scores head size 256 without element tests | 1.2.10 |
+| [#3728](https://github.com/ashhart/TensorFold/pull/3728) | a lone stream's copy windows are priced from its own timed rounds | next release |
 
 In review:
 - [#3521](https://github.com/ashhart/TensorFold/pull/3521): a routed prompt plan keeps the shared expert whole, and gfx1151 takes the GEMM tile from 33 rows; prompt passes of 33 to 63 rows on Qwen3.6-35B-A3B take 8% to 20% less time, with the same bytes.
-- [#3728](https://github.com/ashhart/TensorFold/pull/3728): a lone stream's copy windows are priced from its own timed rounds (fixes [#3390](https://github.com/ashhart/TensorFold/issues/3390)); with drafts on, decode is 15% to 39% faster at 131K and 258K tokens of context on Qwen3.6-35B-A3B and Qwen3.8-27B, with the same tokens.
 - [#3665](https://github.com/ashhart/TensorFold/pull/3665): DFlash2 part 5, `serve` runs Qwen3.8-27B with its DFlash2 drafter on HIP; at one stream and temperature 0, decode is 2.25x faster in code and 1.87x in chat.
 
 Proposed, issue first:
 - [#3765](https://github.com/ashhart/TensorFold/issues/3765): fetch-inactive on prompt attention's `v_permlane16`, which drops a copy the tile never needs; cold prompts are 1.5% to 2.7% faster at 131K to 261K tokens on both checkpoints, with the same bits.
 - [#3811](https://github.com/ashhart/TensorFold/issues/3811): the rows of a decode round read a stream's keys and values once instead of once a row; at kernel level a round of 2 to 4 rows walks its attention in 16% to 30% less time at 131K to 262K tokens on both checkpoints' shapes, with the same bits.
+- [#3939](https://github.com/ashhart/TensorFold/issues/3939): a stream count's shared rounds get their plain price in the count's first rounds instead of its 128th; in a local prototype the first drafted batches of four streams on Qwen3.6-35B-A3B run 8% to 88% faster at 2K to 131K tokens of context, with the same tokens.
 
 In progress: DFlash2 speculative decoding on HIP for Qwen3.8-27B, as six chained PRs. Parts 1 to 4 are merged
 ([#2314](https://github.com/ashhart/TensorFold/pull/2314), [#2477](https://github.com/ashhart/TensorFold/pull/2477),
