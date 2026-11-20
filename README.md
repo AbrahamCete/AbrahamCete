@@ -8,7 +8,7 @@ Every change I ship keeps the output byte-identical: the same tokens and the sam
 - kernel traces;
 - the project's kernel contract, with launch records taken from the release toolchain.
 
-## TensorFold: 31 merged pull requests
+## TensorFold: 32 merged pull requests
 
 Highlights:
 
@@ -27,6 +27,8 @@ Highlights:
   - A resumed prompt with 1 or 2 rows left reaches its first token 48% and 64% sooner on Qwen3.8-27B, and 18% and 27% sooner on Qwen3.6-35B-A3B (1.2.10).
 - **[#2878](https://github.com/ashhart/TensorFold/pull/2878): the routed prompt tile takes K-parallel passes for experts of few rows.**
   - Cold prompts of 64 to 256 tokens on Qwen3.6-35B-A3B are 11% to 22% faster at one stream, with the same tokens (1.2.8).
+- **[#3521](https://github.com/ashhart/TensorFold/pull/3521): a routed prompt plan keeps the shared expert whole, and gfx1151 takes the GEMM tile from 33 rows.**
+  - Prompt passes of 33 to 63 rows on Qwen3.6-35B-A3B take 8% to 20% less time, with the same bytes (fixes [#3161](https://github.com/ashhart/TensorFold/issues/3161); next release).
 - **[#1855](https://github.com/ashhart/TensorFold/pull/1855): narrowest stream columns.**
   - Qwen3.6-35B-A3B chat is about 18% faster with drafts on, and Qwen3.8-27B about 5% (1.2.2).
 - **[#2455](https://github.com/ashhart/TensorFold/pull/2455): sampled streams draft with the graphed head chain.**
@@ -69,9 +71,9 @@ Highlights:
 | [#3273](https://github.com/ashhart/TensorFold/pull/3273) | a plain prompt of 1 or 2 rows takes the 2-row K-parallel tile on gfx1151 | 1.2.10 |
 | [#3508](https://github.com/ashhart/TensorFold/pull/3508) | the planned decode walk scores head size 256 without element tests | 1.2.10 |
 | [#3728](https://github.com/ashhart/TensorFold/pull/3728) | a lone stream's copy windows are priced from its own timed rounds | next release |
+| [#3521](https://github.com/ashhart/TensorFold/pull/3521) | a routed prompt plan keeps the shared expert whole; gfx1151 takes the GEMM tile from 33 rows | next release |
 
 In review:
-- [#3521](https://github.com/ashhart/TensorFold/pull/3521): a routed prompt plan keeps the shared expert whole, and gfx1151 takes the GEMM tile from 33 rows; prompt passes of 33 to 63 rows on Qwen3.6-35B-A3B take 8% to 20% less time, with the same bytes.
 - [#3665](https://github.com/ashhart/TensorFold/pull/3665): DFlash2 part 5, `serve` runs Qwen3.8-27B with its DFlash2 drafter on HIP; at one stream and temperature 0, decode is 2.25x faster in code and 1.87x in chat.
 - [#4207](https://github.com/ashhart/TensorFold/pull/4207): Qwen prompts take the policy's 4,096-row prompt step on a lone RDNA 3.5 iGPU; on gfx1151 the cold first token of Qwen3.6-35B-A3B comes 9% to 18% sooner from 2K to 64K prompt tokens, with the same bytes.
 
