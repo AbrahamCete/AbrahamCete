@@ -73,6 +73,7 @@ Highlights:
 In review:
 - [#3521](https://github.com/ashhart/TensorFold/pull/3521): a routed prompt plan keeps the shared expert whole, and gfx1151 takes the GEMM tile from 33 rows; prompt passes of 33 to 63 rows on Qwen3.6-35B-A3B take 8% to 20% less time, with the same bytes.
 - [#3665](https://github.com/ashhart/TensorFold/pull/3665): DFlash2 part 5, `serve` runs Qwen3.8-27B with its DFlash2 drafter on HIP; at one stream and temperature 0, decode is 2.25x faster in code and 1.87x in chat.
+- [#4207](https://github.com/ashhart/TensorFold/pull/4207): Qwen prompts take the policy's 4,096-row prompt step on a lone RDNA 3.5 iGPU; on gfx1151 the cold first token of Qwen3.6-35B-A3B comes 9% to 18% sooner from 2K to 64K prompt tokens, with the same bytes.
 
 Proposed in an issue, landed by the maintainer:
 - [#3765](https://github.com/ashhart/TensorFold/issues/3765): fetch-inactive on prompt attention's `v_permlane16`, which drops a copy the tile never needs; cold prompts are 1.5% to 2.7% faster at 131K to 261K tokens on both checkpoints, with the same bits. Landed as [#4080](https://github.com/ashhart/TensorFold/pull/4080), next release.
