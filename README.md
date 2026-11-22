@@ -8,7 +8,7 @@ Every change I ship keeps the output byte-identical: the same tokens and the sam
 - kernel traces;
 - the project's kernel contract, with launch records taken from the release toolchain.
 
-## TensorFold: 33 merged pull requests
+## TensorFold: 34 merged pull requests
 
 Highlights:
 
@@ -73,6 +73,7 @@ Highlights:
 | [#3728](https://github.com/ashhart/TensorFold/pull/3728) | a lone stream's copy windows are priced from its own timed rounds | next release |
 | [#3521](https://github.com/ashhart/TensorFold/pull/3521) | a routed prompt plan keeps the shared expert whole; gfx1151 takes the GEMM tile from 33 rows | next release |
 | [#3665](https://github.com/ashhart/TensorFold/pull/3665) | DFlash2 part 5: `serve` runs Qwen3.8-27B with its DFlash2 drafter on HIP | next release |
+| [#3918](https://github.com/ashhart/TensorFold/pull/3918) | DFlash2 part 6: a drafted round's holds run only the rows their drafts need | next release |
 
 In review:
 - [#4207](https://github.com/ashhart/TensorFold/pull/4207): Qwen prompts take the policy's 4,096-row prompt step on a lone RDNA 3.5 iGPU; on gfx1151 the cold first token of Qwen3.6-35B-A3B comes 9% to 18% sooner from 2K to 64K prompt tokens, with the same bytes.
@@ -85,7 +86,7 @@ Proposed, issue first:
 - [#3811](https://github.com/ashhart/TensorFold/issues/3811): the rows of a decode round read a stream's keys and values once instead of once a row; at kernel level a round of 2 to 4 rows walks its attention in 16% to 30% less time at 131K to 262K tokens on both checkpoints' shapes, with the same bits.
 - [#3939](https://github.com/ashhart/TensorFold/issues/3939): a stream count's shared rounds get their plain price in the count's first rounds instead of its 128th; in a local prototype the first drafted batches of four streams on Qwen3.6-35B-A3B run 8% to 88% faster at 2K to 131K tokens of context, with the same tokens.
 
-In progress: DFlash2 speculative decoding on HIP for Qwen3.8-27B, as six chained PRs. Parts 1 to 5 are merged
+Done: DFlash2 speculative decoding on HIP for Qwen3.8-27B, as six chained PRs, all merged
 ([#2314](https://github.com/ashhart/TensorFold/pull/2314), [#2477](https://github.com/ashhart/TensorFold/pull/2477),
-[#2545](https://github.com/ashhart/TensorFold/pull/2545), [#2726](https://github.com/ashhart/TensorFold/pull/2726), [#3665](https://github.com/ashhart/TensorFold/pull/3665)); parts 1 and 2 ship in 1.2.5, part 3 in 1.2.6, part 4 in 1.2.8 and part 5, the serving wiring, in the next release: at one stream and temperature 0, `serve` decodes Qwen3.8-27B 2.25x faster in code and 1.87x in chat. Part 6, depth control for shared rounds, is in review ([#3918](https://github.com/ashhart/TensorFold/pull/3918)). Measured locally, the whole chain decodes 2.5x faster in code and 2x
+[#2545](https://github.com/ashhart/TensorFold/pull/2545), [#2726](https://github.com/ashhart/TensorFold/pull/2726), [#3665](https://github.com/ashhart/TensorFold/pull/3665), [#3918](https://github.com/ashhart/TensorFold/pull/3918)); parts 1 and 2 ship in 1.2.5, part 3 in 1.2.6, part 4 in 1.2.8, and parts 5 and 6, the serving wiring and depth control for shared rounds, in the next release: at one stream and temperature 0, `serve` decodes Qwen3.8-27B 2.25x faster in code and 1.87x in chat. Measured locally, the whole chain decodes 2.5x faster in code and 2x
 in chat at one stream, with the same tokens.
